@@ -50,4 +50,5 @@ app.get('/index', (req,response) =>{
 });
 
 //port
-app.listen(3000, console.log("Listening at port 3000..."))
+app.set('port', process.env.PORT || 3001);
+app.listen($PORT, `Server listening on port ${app.get('port')}`)

@@ -2,7 +2,8 @@ FROM node
 WORKDIR /app
 
 COPY . .
-EXPOSE 3000
+ENV PORT=3001
+EXPOSE $PORT
 
 COPY package*.json ./
 
