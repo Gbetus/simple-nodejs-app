@@ -7,11 +7,11 @@ const wikip = require('wiki-infobox-parser');
 app.set("view engine", 'ejs');
 
 //routes
-app.get('/', (req,res) =>{
+app.get('/', (req, res) => {
     res.render('index');
 });
 
-app.get('/index', (req,response) =>{
+app.get('/index', (req, response) => {
     let url = "https://en.wikipedia.org/w/api.php"
     let params = {
         action: "opensearch",
@@ -22,33 +22,35 @@ app.get('/index', (req,response) =>{
     }
 
     url = url + "?"
-    Object.keys(params).forEach( (key) => {
-        url += '&' + key + '=' + params[key]; 
+    Object.keys(params).forEach((key) => {
+        url += '&' + key + '=' + params[key];
     });
 
     //get wikip search string
-    request(url,(err,res, body) =>{
-        if(err) {
+    request(url, (err, res, body) => {
+        if (err) {
             response.redirect('404');
         }
-            result = JSON.parse(body);
-            x = result[3][0];
-            x = x.substring(30, x.length); 
-            //get wikip json
-            wikip(x , (err, final) => {
-                if (err){
-                    response.redirect('404');
-                }
-                else{
-                    const answers = final;
-                    response.send(answers);
-                }
-            });
+        result = JSON.parse(body);
+        x = result[3][0];
+        x = x.substring(30, x.length);
+        //get wikip json
+        wikip(x, (err, final) => {
+            if (err) {
+                response.redirect('404');
+            } else {
+                const answers = final;
+                response.send(answers);
+            }
+        });
     });
 
-    
+
 });
 
 //port
 app.set('port', process.env.PORT || 3001);
-app.listen(app.get('port'), `Server listening on port ${app.get('port')}`)
+server.listen(app.get('port'), () => {
+    console.log(`Server listening on port ${app.get('port')}`);
+});
+// app.listen(app.get('port'), `Server listening on port ${app.get('port')}`)
